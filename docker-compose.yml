@@ -1,0 +1,25 @@
+version: "3.1"
+
+services:
+  redditbot:
+    depends_on:
+      - db
+    image: knusperwurst/redditbot
+    container_name: redditbot
+    environment:
+      - CLIENT_ID=
+      - CLIENT_SECRET=
+      - USER_AGENT=
+      - DB_URI=mysql+pymysql://root:dbpassword@db/redditstats
+      - SUBREDDIT=
+    restart: unless-stopped
+
+  db:
+    image: mariadb
+    container_name: redditbot_db
+    environment:
+      - MARIADB_ROOT_PASSWORD=dbpassword
+      - MARIADB_DATABASE=redditstats
+    ports:
+      - "0.0.0.0:3306:3306"
+    restart: unless-stopped
